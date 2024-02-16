@@ -42,6 +42,12 @@
       padding: 8px;
     }
 
+    #productsContainer{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
 
 
     /*---------- searchbar */
@@ -508,4 +514,10 @@ flex: 50%;
           .sec-page{
             flex-direction: column;
           }
+          #productsContainer{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
       }
