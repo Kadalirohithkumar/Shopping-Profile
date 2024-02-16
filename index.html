@@ -33,14 +33,14 @@
       
       
       <!-- Menu Icon -->
-      <div class="menuIcon">
+      <div class="menuIcon" onclick="toggleMobileMenu()">
         <span class="icon icon-bars"></span>
         <span class="icon icon-bars overlay"></span>
       </div>
   
       
       <div class="overlay-menu p-0">
-        <ul id="menu" class="m-0 p-0">
+        <ul id="menu" class="m-0 p-0" style="display: flex; flex-direction:column; align-items:center;justify-content:space-">
             <li id="home"><a href="#">New Arrivals</a></li>
               <li><a href="#">Shop</a></li>
               <li><a href="#">Beauty</a></li>
@@ -66,10 +66,7 @@
         <div class="home-con">
             <div class="left-con">
                 <hr style="color: black;"/>
-                <h1 style="font-size: 45px;">Fabric That</h1>
-                <div class="horizontal-line"></div>
-                <h1 style="font-size: 45px;">Speaks</h1>
-                <div class="horizontal-line"></div>
+                <h1 style="font-size: 45px;">Fabric That<br>Speaks</h1>
                 <div class="buttons" style="display:flex;  ">
                     <button style="background-color: black; color:white; padding:10px 20px; border:none;margin:20px">View All</button>
                     <button style="background-color: transparent; color:black;padding:10px 20px; border:1px solid black;margin:20px">Watch Now</button>
@@ -102,10 +99,6 @@
       </section>
 
       <Section id="productsContainer" style="display: flex;"></Section>
-
-
-
-
       <script>
         let limg = document.getElementById('limg');
         let mimg = document.getElementById('mimg');
@@ -123,24 +116,34 @@
             const container = document.getElementById('productsContainer');
             container.innerHTML = '';
         
-            products.forEach(product => {
+            // Exclude the first product from rendering
+            const productsToRender = products.slice(1);
+        
+            productsToRender.forEach(product => {
                 const productDiv = document.createElement('div');
                 productDiv.className = 'product';
         
                 const image = document.createElement('img');
                 image.src = product.image;
                 image.alt = product.title;
-                image.style.backgroundColor.transparent;
-            
         
                 const title = document.createElement('h3');
                 title.textContent = product.title;
         
                 productDiv.appendChild(image);
                 productDiv.appendChild(title);
+
         
                 container.appendChild(productDiv);
             });
+            const con=document.createElement('div');
+                const br=document.createElement('br');
+                const subText=document.createElement('h2');
+                subText.textContent='Fashion is not about cloths, It is about a look';
+                subText.style.width='60%';
+                subText.style.marginLeft='60px';
+                con.appendChild(subText);
+                container.appendChild(con)
         }
         
         async function searchProducts() {
@@ -198,6 +201,15 @@
                     productsContainer.style.display='flex;'
         }
 
+
+
+
+
+
+        function toggleMobileMenu() {
+            var mobileMenu = document.getElementById("menu");
+            mobileMenu.style.display = (mobileMenu.style.display === "block") ? "none" : "block";
+        }
 
     </script>
 

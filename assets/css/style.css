@@ -21,11 +21,11 @@
     }
 
     .product {
-      border: 1px solid #ddd;
       padding: 10px;
       margin: 10px;
       max-width: 300px;
       text-align: center;
+      background: transparent;
     }
 
     img {
