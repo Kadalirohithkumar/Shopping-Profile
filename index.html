@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+    <div>
+        <nav id="navbar" class="d-flex justify-content-center m-0 p-0">
+          <div class="nav-wrapper container m-0 p-0">
+            <!-- Navbar Logo -->
+            <div class="logo ms-3">
+              <!-- Logo Placeholder for Illustration -->
+              <a href="#home"><img width="120px" class="img-fluid" src="./assets/images/Aeezah.png"></a>
+            </div>
+        
+            <!-- Navbar Links -->
+            <ul id="menu" class="p-0">
+              <li  onclick="displayHome()"><a href="#">New Arrivals</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">Beauty</a></li>
+              <li><a href="#">Sale</a></li>
+              <li><a href="#">Journal</a></li>
+              <li><i class="fa-solid fa-bag-shopping"></i></li>
+                <li><i class="fa-solid fa-0"></i></li>
+                <li><i class="fa-solid fa-user"></i></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      
+      
+      <!-- Menu Icon -->
+      <div class="menuIcon">
+        <span class="icon icon-bars"></span>
+        <span class="icon icon-bars overlay"></span>
+      </div>
+  
+      
+      <div class="overlay-menu p-0">
+        <ul id="menu" class="m-0 p-0">
+            <li id="home"><a href="#">New Arrivals</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">Beauty</a></li>
+              <li><a href="#">Sale</a></li>
+              <li><a href="#">Journal</a></li>
+              <li><i class="fa-solid fa-bag-shopping"></i></li>
+            <li><i class="fa-solid fa-0"></i></li>
+            <li style="margin-right: 20px;"><i class="fa-solid fa-user"></i></li>
+          
+        </ul>
+      </div>
+
+      <div class="search-con" style="width:100%;text-align:center;display:flex;align-items:center;justify-content:space-around">
+        <div style="display: flex;">
+            <input class="searchbar"  style="width:300px;" type="text" id="searchInput" placeholder="Search products">
+        <button class="searchbar" style="width: 110px;" onclick="searchProducts()">Search</button>
+        </div>
+        <img class="searchbar" src="./assets/images/insta.jpg" style="width: 300px;" />
+      </div>
+
+
+      <section id="home">
+        <div class="home-con">
+            <div class="left-con">
+                <hr style="color: black;"/>
+                <h1 style="font-size: 45px;">Fabric That</h1>
+                <div class="horizontal-line"></div>
+                <h1 style="font-size: 45px;">Speaks</h1>
+                <div class="horizontal-line"></div>
+                <div class="buttons" style="display:flex;  ">
+                    <button style="background-color: black; color:white; padding:10px 20px; border:none;margin:20px">View All</button>
+                    <button style="background-color: transparent; color:black;padding:10px 20px; border:1px solid black;margin:20px">Watch Now</button>
+                </div>
+            </div>
+            <div class="right-con">
+                <div style="background-image:url('./assets/images/orange-bg.jpg');background-repeat:no-repeat;background-position:center">
+                    <img src="./assets/images/homeimg.png" />
+                </div>
+                <p style="font-size: 15px;">New Edition</p>
+            </div>
+        </div>
+      </section>
+
+
+      <section>
+        <div class="sec-page" id="secPage" >
+            <div class="f-con" style="background-image: url('');">
+                <h3>Shirts</h3>
+                <img src="./assets/images/yellow.jpg" id="limg" />
+            </div>
+            <div class="m-con">
+                <h3>Hoodies</h3>
+                <img src="./assets/images/blue.jpg" id="limg" />
+            </div>
+            <div class="r-con">
+                <h1>Fashion is not about cloths <br> It is about a look</h1>
+            </div>
+        </div>
+      </section>
+
+      <Section id="productsContainer" style="display: flex;"></Section>
+
+
+
+
+      <script>
+        let limg = document.getElementById('limg');
+        let mimg = document.getElementById('mimg');
+        let rimg = document.getElementById('rimg');
+        let home=document.getElementById('home');
+        
+        async function fetchData(url) {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        }
+        
+        function renderProducts(products) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+        
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+        
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.title;
+                image.style.backgroundColor.transparent;
+            
+        
+                const title = document.createElement('h3');
+                title.textContent = product.title;
+        
+                productDiv.appendChild(image);
+                productDiv.appendChild(title);
+        
+                container.appendChild(productDiv);
+            });
+        }
+        
+        async function searchProducts() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim();
+        
+            if (!searchTerm) {
+                alert('Please enter a search term');
+                return;
+            }
+        
+            try {
+                const apiUrl = 'https://products-api-2ttf.onrender.com/api/products';
+                const allProducts = await fetchData(apiUrl);
+        
+                // Filter products based on search term
+                const filteredProducts = allProducts.filter(product =>
+                    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+        
+                // Show/hide sections based on search result
+                const homeSection = document.getElementById('home');
+                const secPageSection = document.getElementById('secPage');
+                const productsContainer = document.getElementById('productsContainer');
+
+        
+                if (filteredProducts.length > 0) {
+                    homeSection.style.display = 'none';
+                    secPageSection.style.display = 'none';
+                    productsContainer.style.display = 'block';
+                    productsContainer.style.display='flex;'
+        
+                    renderProducts(filteredProducts);
+                } else {
+                    alert('No matching products found.');
+                }
+            } catch (error) {
+                console.error('Error fetching or rendering products:', error);
+            }
+        }
+        
+        // Initial load
+        window.onload = async function () {
+            const apiUrl = 'https://products-api-2ttf.onrender.com/api/products';
+            const products = await fetchData(apiUrl);
+            renderProducts(products);
+        };
+
+        // ... Your existing JavaScript code ...
+
+        function displayHome(){
+            homeSection.style.display = 'block';
+                    secPageSection.style.display = 'block';
+                    productsContainer.style.display = 'none';
+                    productsContainer.style.display='flex;'
+        }
+
+
+
+    </script>
+
+    <script href="./assets/js/script.js"></script>
+</body>
+</html>
+
+
+
