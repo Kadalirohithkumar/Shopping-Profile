@@ -99,7 +99,11 @@
         </div>
       </section>
 
+      
       <Section id="productsContainer" style="display: flex;"></Section>
+
+
+
       <script>
         let limg = document.getElementById('limg');
         let mimg = document.getElementById('mimg');
@@ -160,31 +164,36 @@
                 const apiUrl = 'https://products-api-2ttf.onrender.com/api/products';
                 const allProducts = await fetchData(apiUrl);
         
-                // Filter products based on search term
-                const filteredProducts = allProducts.filter(product =>
-                    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+                const foundProduct = allProducts.find(product =>
+                    product.title.toLowerCase() === searchTerm.toLowerCase()
                 );
         
-                // Show/hide sections based on search result
-                const homeSection = document.getElementById('home');
-                const secPageSection = document.getElementById('secPage');
-                const productsContainer = document.getElementById('productsContainer');
-                
+                if (foundProduct) {
+                    const container = document.getElementById('productsContainer');
+                    container.innerHTML = '';
         
-                if (filteredProducts.length > 0) {
-                    homeSection.style.display = 'none';
-                    secPageSection.style.display = 'none';
-                    productsContainer.style.display = 'block';
-                    productsContainer.style.display='flex;'
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
         
-                    renderProducts(filteredProducts);
+                    const image = document.createElement('img');
+                    image.src = foundProduct.image;
+                    image.alt = foundProduct.title;
+        
+                    const title = document.createElement('h3');
+                    title.textContent = foundProduct.title;
+        
+                    productDiv.appendChild(image);
+                    productDiv.appendChild(title);
+        
+                    container.appendChild(productDiv);
                 } else {
-                    alert('No matching products found.');
+                    alert('No matching product found.');
                 }
             } catch (error) {
                 console.error('Error fetching or rendering products:', error);
             }
         }
+        
         
         // Initial load
         window.onload = async function () {
